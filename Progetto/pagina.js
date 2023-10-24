@@ -1,9 +1,9 @@
 const express = require('express');
-const mysql = require('mysql');
+const mysql2 = require('mysql2');
 
 const app = express();
 
-const pool = mysql.createPool({
+const pool = mysql2.createPool({
   connectionLimit: 10,
   host: 'localhost',
   user: 'root',

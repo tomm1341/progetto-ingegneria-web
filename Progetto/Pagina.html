@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gym Management System</title>
+    <style>
+      /* Add some styles here */
+    </style>
+  </head>
+  <body>
+    <h1>Gym Management System</h1>
+    <h2>Staff</h2>
+    <ul id="staff-list"></ul>
+    <h2>Equipment</h2>
+    <ul id="equipment-list"></ul>
+    <h2>Clients</h2>
+    <ul id="clients-list"></ul>
+    <h2>Schedule</h2>
+    <ul id="schedule-list"></ul>
+    <script>
+      // Make requests to the API and display the data here
+      const staffList = document.getElementById('staff-list');
+      const equipmentList = document.getElementById('equipment-list');
+      const clientsList = document.getElementById('clients-list');
+      const scheduleList = document.getElementById('schedule-list');
+
+      fetch('/staff')
+        .then(response => response.json())
+        .then(data => {
+          data.forEach(staff => {
+            const li = document.createElement('li');
+            li.textContent = `${staff.name} (${staff.role}) - $${staff.salary}`;
+            staffList.appendChild(li);
+          });
+        });
+
+      fetch('/equipment')
+        .then(response => response.json())
+        .then(data => {
+          data.forEach(equipment => {
+            const li = document.createElement('li');
+            li.textContent = `${equipment.name} (${equipment.type}) - $${equipment.price}`;
+            equipmentList.appendChild(li);
+          });
+        });
+
+      fetch('/clients')
+        .then(response => response.json())
+        .then(data => {
+          data.forEach(client => {
+            const li = document.createElement('li');
+            li.textContent = `${client.name} (${client.membership_type}) - ${client.email} - ${client.phone}`;
+            clientsList.appendChild(li);
+          });
+        });
+
+      fetch('/schedule')
+        .then(response => response.json())
+        .then(data => {
+          data.forEach(schedule => {
+            const li = document.createElement('li');
+            li.textContent = `${schedule.day_of_week} - ${schedule.start_time} to ${schedule.end_time} - ${schedule.staff_id} - ${schedule.equipment_id} - ${schedule.client_id}`;
+            scheduleList.appendChild(li);
+          });
+        });
+    </script>
+  </body>
+</html>

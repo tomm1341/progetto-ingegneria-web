@@ -25,7 +25,7 @@ export default defineComponent({
 <div class="row mx-auto mt-3 home"> <!--colonna offset-->
     <div class="col-2"></div>
     <div class="col-10 col-md-8">
-      <img src=".../img/angular1.svg" alt="AngularJS Logo" class="d-inline img-fluid opacity-80" id="AngularImg">
+      <img src="../../public/img/angular1.svg" alt="AngularJS Logo" class="d-inline img-fluid opacity-80" id="AngularImg">
     </div>
     <div class="col-8 col-lg-2 p-0" id="navbar-laterale-md-margin">
       <nav class="mx-4 navbar navbar-expand-lg navbar-dark">

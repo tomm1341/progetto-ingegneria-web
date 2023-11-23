@@ -1,3 +1,8 @@
+
+CREATE DATABASE IF NOT EXISTS AngularForum;
+
+use AngularForum;
+
 -- Creazione della tabella utenti
 CREATE TABLE utenti (
     id_utente INT PRIMARY KEY AUTO_INCREMENT,

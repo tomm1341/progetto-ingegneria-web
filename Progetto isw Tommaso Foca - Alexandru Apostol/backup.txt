@@ -1,0 +1,25 @@
+<script lang="ts">
+import { defineComponent } from 'vue'
+import axios from 'axios'
+import { Utente } from '../types'
+
+export default defineComponent({
+  data() {
+    return {
+      utenti: [] as Utente[],
+    }
+  },
+  methods: {
+    getUltimiArticoli() {
+      axios
+        .get('/api/articoli/2')
+        .then((response) => (this.datiArticoli = response.data))
+    },
+  },
+  mounted() {
+    this.getUltimiArticoli()
+  },
+})
+</script>
+
+script per visualizzare gli utenti di una pagina (incompleto)

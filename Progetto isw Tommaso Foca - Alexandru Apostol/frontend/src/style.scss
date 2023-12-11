@@ -109,8 +109,8 @@ opacity: 90%;
 
 div#darkmode button{
 background-color: #0089C9;
-display: inline;
-float: right;
+
+
 }
 
 div#darkmode button > img{
@@ -221,6 +221,11 @@ display: inline;
 
 div#navbar-laterale-md-margin > nav ul > li > a{
 padding-left: 5%;
+}
+
+div#darkmode {
+  display: inline-flex;
+  margin-right: 10%;
 }
 
 #navbar-laterale-md-margin {
@@ -364,9 +369,7 @@ opacity: 90%;
 
 div#darkmode button{
 background-color: #0089C9;
-display: inline-block;
-float: right;
-vertical-align: middle;
+
 }
 
 div#darkmode button > img{
@@ -821,9 +824,7 @@ opacity: 90%;
 
 div#darkmode button{
 background-color: #0089C9;
-display: inline-block;
-float: right;
-vertical-align: middle;
+
 }
 
 div#darkmode button > img{
@@ -1236,7 +1237,7 @@ border-radius: 5px;
 div#darkmode button{
 background-color: #0089C9;
 display: inline-block;
-float: right;
+
 vertical-align: middle;
 }
 

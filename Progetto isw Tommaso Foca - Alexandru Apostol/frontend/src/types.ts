@@ -1,23 +1,18 @@
-export interface Articolo {
-    idarticolo: number
-    titoloarticolo: string
-    dataarticolo: string
-    anteprimaarticolo: string
-    imgarticolo: string
-    nome: string
+export interface Utente {
+  nome: string
+  cognome: string
+  username: string
+  password: string
+  email: string
+  eta: number
+  genere: string
+  professione: string
+  ruolo: "admin" | "user"
 }
 
-export interface DettagliArticolo {
-    idarticolo: number
-    titoloarticolo: string
-    dataarticolo: string
-    imgarticolo: string
-    nome: string
-    testoarticolo: string
+export interface Domanda {
+  id_domanda: number
+  id_utente: number
+  testo_domanda: string
 }
 
-export interface Autore {
-    username: string
-    nome: string
-    argomenti: string
-}

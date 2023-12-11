@@ -9,29 +9,18 @@ CREATE TABLE utenti (
     nome VARCHAR(255) NOT NULL,
     cognome VARCHAR(255) NOT NULL,
     username VARCHAR(255) UNIQUE NOT NULL,
+    email VARCHAR(255)  UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    eta INT,
-    genere VARCHAR(10)
-);
-
--- Creazione della tabella moderatori
-CREATE TABLE moderatori (
-    id_moderatore INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(255) NOT NULL,
-    cognome VARCHAR(255) NOT NULL,
-    username VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
     eta INT,
     genere VARCHAR(10),
-    professione VARCHAR(255)
+    professione VARCHAR(255),
+    ruolo VARCHAR(255) NOT NULL
 );
 
 -- Creazione della tabella domande_utenti
 CREATE TABLE domande_utenti (
     id_domanda INT PRIMARY KEY AUTO_INCREMENT,
-    id_utente INT,
+    id_utente INT NOT NULL,
     testo_domanda TEXT,
     FOREIGN KEY (id_utente) REFERENCES utenti(id_utente) ON DELETE CASCADE
 );
@@ -39,7 +28,7 @@ CREATE TABLE domande_utenti (
 -- Creazione della tabella risposte
 CREATE TABLE risposte (
     id_risposta INT PRIMARY KEY AUTO_INCREMENT,
-    id_utente INT,
+    id_utente INT NOT NULL,
     id_domanda INT,
     testo_risposta TEXT,
     FOREIGN KEY (id_utente) REFERENCES utenti(id_utente) ON DELETE CASCADE,

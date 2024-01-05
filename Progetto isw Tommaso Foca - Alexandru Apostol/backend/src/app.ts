@@ -20,7 +20,7 @@ app.use(forumRouter)
 app.use(loginRouter)
 app.use(express.json())
 
-app.post('/api/register', /*inviaDatiController*/register)
+app.post('/api/register', register)
 app.post('/api/login', login)
 app.get('/api/profile', getProfile)
 app.post('/api/logout', logout)

@@ -21,7 +21,8 @@ CREATE TABLE utenti (
 CREATE TABLE domande_utenti (
     id_domanda INT PRIMARY KEY AUTO_INCREMENT,
     id_utente INT NOT NULL,
-    testo_domanda TEXT,
+    data DATE NOT NULL,
+    testo_domanda TEXT NOT NULL,
     FOREIGN KEY (id_utente) REFERENCES utenti(id_utente) ON DELETE CASCADE
 );
 

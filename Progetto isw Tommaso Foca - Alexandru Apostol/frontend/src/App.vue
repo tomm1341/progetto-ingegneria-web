@@ -18,7 +18,7 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav mr-auto nav-pills">
+              <ul class="navbar-nav mr-auto nav-pills col-4 col-lg-4">
                 <li class="nav-item">
                   <router-link to="/">
                     <a class="nav-link px-3 px-lg-auto" type="button">Home</a>
@@ -46,20 +46,21 @@
                   </router-link>
                 </li>
               </ul>
-              <div class="col-5 col-md-6 col-lg-7"></div>
-              <div class="col-1 float-right grow flex justify-end items-center gap-3">
-                <!--<UserInfo v-if="user" :user="user" />-->
-                <span v-if="user" class="text-sm">{{ user.username }}</span>
-                <button v-if="user" class="btn !px-2" @click="logout">
+              <div class="col-6 col-md-5 col-lg-6"></div>
+              <div class="col-1 col-lg-1 col-sm-2 float-right grow flex justify-end items-center gap-3 d-inline">
+                <UserInfo v-if="user" :user="user" />
+                <!--<button v-if="user" class="btn !px-2" @click="logout">
                   Logout
-                </button>
-                <template v-else>
-                  <RouterLink to="/login" class="btn">Login</RouterLink>
-                  <RouterLink to="/register" class="btn !bg-blue-500 text-white">Registrati</RouterLink>
+                </button>-->
+                <template v-else id="login-register">
+                  <div id="btns">
+                    <RouterLink to="/login" class="btn" id="else">Login</RouterLink>
+                    <RouterLink to="/register" class="btn" id="else">Registrati</RouterLink>
+                  </div>
                 </template>
               </div>
-              <div id="darkmode" class="col-1">
-                <button type="button" class="btn btn-primary" id="theme-switch">
+              <div id="darkmode" class="col-1 col-lg-1 col-sm-2 m-0">
+                <button type="button" class="btn btn-primary flex grow d-inline-block" id="theme-switch">
                   <img src="../public/img/brightness.png" alt="Bottone Darkmode/Lightmode" />
                 </button>
               </div>
@@ -76,7 +77,7 @@
       </div>
     </div>
     <div class="container-fluid p-0 overflow-hidden">
-      <router-view></router-view>
+      <router-view :user="user" />
     </div>
     <!--<script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
 <a href="#">
@@ -124,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 })
 import axios from "axios"
-import { PropType, defineComponent } from "vue"
+import { PropType, defineComponent, onMounted } from "vue"
 import UserInfo from "./components/user-info.vue"
 import { Utente } from "./types"
 
@@ -132,24 +133,43 @@ export default defineComponent({
   components: { UserInfo },
   data() {
     return {
-      user: null as Utente | null,
-    }
-  },
-  props: {
-    user: Object as PropType<Utente>,
+      user: {} as Utente, // Inizializza con un oggetto vuoto
+    };
   },
   methods: {
     async logout() {
-      await axios.post("/api/logout")
-      window.location.reload()
+      await axios.post("/api/logout");
+      window.location.reload();
     },
     async getUser() {
-      const res = await axios.get("/api/profile")
-      this.user = res.data
+      try {
+        const res = await axios.get("/api/profile");
+        this.user = res.data;
+      } catch (error) {
+        console.error("Errore durante il recupero dell'utente:", error);
+      }
     },
   },
-  mounted() {
-    this.getUser()
+  watch: { //watch al posto di mounted() per chiamare getUser() ogni volta che la route cambia
+    $route: 'getUser',
   },
-})
+});
 </script>
+
+<style lang="scss">
+div#btns>a {
+
+  &:hover {
+    color: #fff;
+    background-color: #DC3545;
+  }
+}
+
+
+@media (max-width: 768px) {
+  div#btns {
+    display: none;
+  }
+
+}
+</style>

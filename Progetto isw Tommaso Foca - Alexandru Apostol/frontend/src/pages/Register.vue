@@ -1,13 +1,13 @@
 <template>
-  <div class="container" id="app1">
-    <div class="float-center ms-5">
-      <h1 class="text-center mt-5">Registrati</h1>
-      <form @submit.prevent="inviaDati" autocomplete="off" class="align-items-center text-center">
+  <div class="container rounded" id="app1">
+    <div class="float-center align-items-center text-center">
+      <h1 class="text-center text-black pt-4 mt-5">Registrati</h1>
+      <div v-if="errorMessage" id="errorMessage">{{ errorMessage }}</div>
+      <form @submit.prevent="inviaDati" autocomplete="off" class="ps-5 align-items-center text-center">
         <div class="form-floating ms-5 col-11 col-md-10 me-0">
           <input v-model="nome" type="text" id="nome" name="nome" class="form-control" placeholder="nome" required />
           <label for="nome" class="text-secondary">Nome</label>
         </div>
-
         <div class="form-floating ms-5 col-11 col-md-10 me-0">
           <input v-model="cognome" type="text" id="cognome" name="cognome" class="form-control" placeholder="cognome"
             required />
@@ -60,8 +60,8 @@
           <label for="ruolo" class="text-secondary">Ruolo</label>
         </div>
 
-        <div class="col-2">
-          <input class="btn add-btn bg-success" type="submit" value="Iscriviti" id="login" />
+        <div class="ps-5 col-2">
+          <input class="btn add-btn" type="submit" value="Iscriviti" id="login" />
         </div>
         <div class="col-2">
           <input class="btn add-btn btn-success d-none" type="button" value="Conferma" id="confbutton" />
@@ -85,6 +85,7 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   data() {
     return {
+      errorMessage: null,
       nome: "",
       cognome: "",
       username: "",
@@ -116,12 +117,13 @@ export default defineComponent({
           ruolo: this.ruolo
         })
         window.location.href = "/"
-      } catch (e: any) {
-        if (e.response) {
-          alert(`${e.response.status} - ${e.response.statusText}\n${e.response.data}`)
-        } else {
-          alert(e.message)
-        }
+      } catch (error: any) {
+        if (error.response) {
+          this.errorMessage = error;
+          //alert(`${error.response.status} - ${error.response.statusText}\n${error.response.data}`)
+        } /*else {
+          alert(error.message)
+        }*/
       }
     },
   },
@@ -129,11 +131,54 @@ export default defineComponent({
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 /*Per non visualizzare le freccette nell'input dell'età*/
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+div#app1 {
+  background-color: white;
+}
+
+form {
+  align-items: center;
+  justify-content: center;
+}
+
+input#login {
+  background-color: #DC3545;
+}
+
+div#errorMessage {
+  color: red;
+  float: center;
+}
+
+.dark-theme {
+  & div#app1 {
+    background-color: #7C5C77;
+  }
+
+  & input#login {
+    background-color: #AF6C83;
+  }
+}
+
+@media (max-width: 768px) {
+  form {
+    margin-right: 5%;
+  }
+
+  form div {
+    margin: 5%;
+  }
+
+  input#login {
+    font-size: x-small;
+    margin-left: auto;
+  }
 }
 </style>

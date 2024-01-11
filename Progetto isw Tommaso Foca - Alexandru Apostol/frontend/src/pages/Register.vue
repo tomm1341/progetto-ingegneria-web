@@ -2,7 +2,7 @@
   <div class="container rounded" id="app1">
     <div class="float-center align-items-center text-center">
       <h1 class="text-center text-black pt-4 mt-5">Registrati</h1>
-      <div v-if="errorMessage" id="errorMessage">{{ errorMessage }}</div>
+      <div v-if="errorMessage" id="errorMessage" class="my-3 rounded text-center">{{ errorMessage }}</div>
       <form @submit.prevent="inviaDati" autocomplete="off" class="ps-5 align-items-center text-center">
         <div class="form-floating ms-5 col-11 col-md-10 me-0">
           <input v-model="nome" type="text" id="nome" name="nome" class="form-control" placeholder="nome" required />
@@ -63,16 +63,7 @@
         <div class="ps-5 col-2">
           <input class="btn add-btn" type="submit" value="Iscriviti" id="login" />
         </div>
-        <div class="col-2">
-          <input class="btn add-btn btn-success d-none" type="button" value="Conferma" id="confbutton" />
-        </div>
       </form>
-
-      <div class="row mt-5 ms-3 justify-content-center" id="table">
-        <div class="container bg-danger d-none text-center" id="eliminato">
-          <p class="pt-2">Utente eliminato</p>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -85,7 +76,7 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   data() {
     return {
-      errorMessage: null,
+      errorMessage: "",
       nome: "",
       cognome: "",
       username: "",
@@ -101,7 +92,7 @@ export default defineComponent({
   methods: {
     async inviaDati() {
       if (this.password != this.confirmPassword) {
-        alert("Le due password non coincidono.")
+        this.errorMessage = ("Le due password non coincidono.")
         return
       }
       try {
@@ -119,13 +110,17 @@ export default defineComponent({
         window.location.href = "/"
       } catch (error: any) {
         if (error.response) {
-          this.errorMessage = error;
-          //alert(`${error.response.status} - ${error.response.statusText}\n${error.response.data}`)
-        } /*else {
-          alert(error.message)
-        }*/
+          this.errorMessage = error.response.data;
+        }
       }
     },
+  },
+  mounted() {
+    if (this.errorMessage) {
+      setTimeout(() => {
+        this.errorMessage = "";
+      }, 3000); // dopo 3 secondi la variabile errore torna vuota e il banner scompare
+    }
   },
 })
 

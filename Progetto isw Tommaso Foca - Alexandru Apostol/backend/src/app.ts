@@ -4,7 +4,8 @@ import cors from 'cors'
 import forumRouter from './routes/forum-router'
 import loginRouter from './routes/login-router'
 import history from 'connect-history-api-fallback'
-import { /*inviaDatiController,*/ getProfile, login, logout, register } from './controllers/login-controller'
+import bodyParser from 'body-parser'
+import { /*inviaDatiController,*/ deleteUser, getProfile, getUsernameById, login, logout, register, usersList } from './controllers/login-controller'
 //import { loginController } from './controllers/login-controller'
 
 const app: Express = express()
@@ -13,6 +14,7 @@ const port: number = 3000
 app.use(history())
 app.use(express.static('public'))
 app.use(cookieParser())
+app.use(bodyParser.json())
 //app.use(express.static('dist-frontend'))
 
 app.use(cors())
@@ -24,6 +26,9 @@ app.post('/api/register', register)
 app.post('/api/login', login)
 app.get('/api/profile', getProfile)
 app.post('/api/logout', logout)
+app.get('/api/usersList', usersList)
+app.delete('/api/usersList/:id', deleteUser)
+app.get('/api/users/:id', getUsernameById)
 
 const corsOptions = {
   origin: '*',

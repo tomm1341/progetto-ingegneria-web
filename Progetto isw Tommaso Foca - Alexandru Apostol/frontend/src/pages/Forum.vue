@@ -7,16 +7,20 @@
         </div>
       </div>
       <div class="row">
+        <span id="newQuestion" class="position-fixed"><router-link to="/newQuestion">Fai una
+            domanda!</router-link></span>
         <div class="col-2"></div>
-        <div class="col-8 d-grid gap-auto row-gap-4 ms-4">
-          <article class="bg-secondary p-4 border border-black rounded shadow" v-for="Question in Domande">
-            <h2>Domanda numero: {{ Question.id_domanda }}</h2>
-            <h3>By : {{ Question.id_utente }}</h3>
-            <p>{{ Question.testo_domanda }}</p>
-          </article>
+        <div class="col-8 d-grid ms-4">
+          <span v-if="!utente" class="p-2 text-center rounded float-center mb-4">Effettua il login per
+            commentare!</span>
+          <div v-if="posts.length > 0" class="flex flex-col">
+            <PostItem v-for="post in posts" class="d-grid mb-4" :key="post.id_domanda" :post="post"
+              :canDelete="post.id_utente == utente?.id_utente || utente?.ruolo == 'admin'" @delete="getPosts" />
+            <!--<AnswerItem v-for="answer in answers" class="d-grid mb-1" :key="answer.id_risposta" :answer="answer"
+              :canDelete="answer.id_utente == utente?.id_utente || utente?.ruolo == 'admin'" @delete="getAnswers" />-->
+          </div>
+          <div class="col-2"></div>
         </div>
-        <span id="newQuestion" class="position-fixed"><router-link to="/newQuestion">Fai una domanda!</router-link></span>
-        <div class="col-2"></div>
       </div>
     </div>
   </div>
@@ -31,23 +35,37 @@ span#newQuestion {
 
 <script lang="ts">
 import axios from "axios"
-import { defineComponent } from "vue"
-import { Domanda } from "../types"
+import PostItem from "../components/post-item.vue"
+import AnswerItem from "../components/answer-item.vue"
+import { PropType, defineComponent } from "vue"
+import { Domanda, Risposta, Utente } from "../types"
 
 export default defineComponent({
+  components: { PostItem, AnswerItem },
+  props: {
+    utente: Object as PropType<Utente>,
+  },
   data() {
     return {
-      Domande: [] as Domanda[]
+      posts: [] as Domanda[],
+      answers: [] as Risposta[],
+      utente: {} as Utente,
     }
   },
   methods: {
-    Questions: function () {
-      axios.get("/api/forum")
-        .then(response => this.Domande = response.data);
-    }
+    async getUser() {
+      await axios.get("/api/profile")
+        .then(response => this.utente = response.data);
+
+    },
+    async getPosts() {
+      const res = await axios.get("/api/forum")
+      this.posts = res.data
+    },
   },
   mounted() {
-    this.Questions()
+    this.getPosts()
+    this.getUser()
   }
 })
 </script>

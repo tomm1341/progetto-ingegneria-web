@@ -52,16 +52,27 @@ insert into utenti (id_utente, nome, cognome, username, email, password, eta, ge
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-insert into domande_utenti (id_domanda, id_utente, testo_domanda) values (1, 11, 'quis augue luctus tincidunt nulla mollis molestie lorem quisque ut erat curabitur gravida nisi at nibh in hac habitasse platea dictumst aliquam augue quam sollicitudin vitae consectetuer eget');
-insert into domande_utenti (id_domanda, id_utente, testo_domanda) values (2, 1, 'at dolor quis odio consequat varius integer ac leo pellentesque');
-insert into domande_utenti (id_domanda, id_utente, testo_domanda) values (3, 32, 'at nunc commodo placerat praesent blandit nam nulla integer pede');
-insert into domande_utenti (id_domanda, id_utente, testo_domanda) values (4, 24, 'aenean auctor gravida sem praesent id massa id nisl venenatis lacinia aenean sit amet justo morbi');
-insert into domande_utenti (id_domanda, id_utente, testo_domanda) values (5, 1, 'aliquam sit amet diam in magna bibendum imperdiet nullam orci pede venenatis non sodales sed tincidunt eu felis fusce posuere felis sed lacus morbi sem mauris laoreet ut rhoncus aliquet pulvinar sed nisl nunc rhoncus dui vel');
+INSERT INTO domande_utenti (id_domanda, id_utente, testo_domanda, data)
+VALUES
+  (1, 11, 'quis augue luctus tincidunt nulla mollis molestie lorem quisque ut erat curabitur gravida nisi at nibh in hac habitasse platea dictumst aliquam augue quam sollicitudin vitae consectetuer eget', '2023-01-01' + INTERVAL FLOOR(RAND() * 365) DAY),
+  (2, 1, 'at dolor quis odio consequat varius integer ac leo pellentesque', '2023-01-01' + INTERVAL FLOOR(RAND() * 365) DAY),
+  (3, 32, 'at nunc commodo placerat praesent blandit nam nulla integer pede', '2023-01-01' + INTERVAL FLOOR(RAND() * 365) DAY),
+  (4, 24, 'aenean auctor gravida sem praesent id massa id nisl venenatis lacinia aenean sit amet justo morbi', '2023-01-01' + INTERVAL FLOOR(RAND() * 365) DAY),
+  (5, 1, 'aliquam sit amet diam in magna bibendum imperdiet nullam orci pede venenatis non sodales sed tincidunt eu felis fusce posuere felis sed lacus morbi sem mauris laoreet ut rhoncus aliquet pulvinar sed nisl nunc rhoncus dui vel', '2023-01-01' + INTERVAL FLOOR(RAND() * 365) DAY);
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-insert into risposte (id_risposta, id_utente, id_domanda, testo_risposta) values (1, 11, 1, 'proin at turpis a pede posuere nonummy integer non velit donec');
-insert into risposte (id_risposta, id_utente, id_domanda, testo_risposta) values (2, 1, 2, 'facilisi cras non velit nec nisi vulputate nonummy maecenas tincidunt lacus at velit vivamus vel nulla eget eros elementum pellentesque quisque porta volutpat erat quisque erat eros viverra eget congue eget semper rutrum nulla nunc purus phasellus in');
-insert into risposte (id_risposta, id_utente, id_domanda, testo_risposta) values (3, 32, 3, 'nisi vulputate nonummy maecenas tincidunt lacus at velit vivamus vel nulla eget eros elementum pellentesque quisque porta volutpat erat quisque erat eros viverra eget congue eget semper rutrum nulla nunc purus phasellus in felis');
-insert into risposte (id_risposta, id_utente, id_domanda, testo_risposta) values (4, 24, 4, 'convallis nulla neque libero convallis eget eleifend luctus ultricies eu nibh quisque id justo sit amet sapien dignissim vestibulum vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae nulla dapibus dolor vel est');
-insert into risposte (id_risposta, id_utente, id_domanda, testo_risposta) values (5, 1, 5, 'luctus tincidunt nulla mollis molestie lorem quisque ut erat curabitur gravida nisi at');
+insert into risposte (id_risposta, id_utente, id_domanda, testo_risposta, data)
+values (1, 30, 1, 'proin at turpis a pede posuere nonummy integer non velit donec', TIMESTAMPADD(DAY, RAND() * 365, '2023-01-01'));
+
+insert into risposte (id_risposta, id_utente, id_domanda, testo_risposta, data)
+values (2, 15, 2, 'facilisi cras non velit nec nisi vulputate nonummy maecenas tincidunt lacus at velit vivamus vel nulla eget eros elementum pellentesque quisque porta volutpat erat quisque erat eros viverra eget congue eget semper rutrum nulla nunc purus phasellus in', TIMESTAMPADD(DAY, RAND() * 365, '2023-01-01'));
+
+insert into risposte (id_risposta, id_utente, id_domanda, testo_risposta, data)
+values (3, 2, 3, 'nisi vulputate nonummy maecenas tincidunt lacus at velit vivamus vel nulla eget eros elementum pellentesque quisque porta volutpat erat quisque erat eros viverra eget congue eget semper rutrum nulla nunc purus phasellus in felis', TIMESTAMPADD(DAY, RAND() * 365, '2023-01-01'));
+
+insert into risposte (id_risposta, id_utente, id_domanda, testo_risposta, data)
+values (4, 27, 4, 'convallis nulla neque libero convallis eget eleifend luctus ultricies eu nibh quisque id justo sit amet sapien dignissim vestibulum vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae nulla dapibus dolor vel est', TIMESTAMPADD(DAY, RAND() * 365, '2023-01-01'));
+
+insert into risposte (id_risposta, id_utente, id_domanda, testo_risposta, data)
+values (5, 48, 5, 'luctus tincidunt nulla mollis molestie lorem quisque ut erat curabitur gravida nisi at', TIMESTAMPADD(DAY, RAND() * 365, '2023-01-01'));

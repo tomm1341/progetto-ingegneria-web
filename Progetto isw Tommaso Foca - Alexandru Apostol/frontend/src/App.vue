@@ -45,19 +45,26 @@
                     </a>
                   </router-link>
                 </li>
+                <li v-if="user?.ruolo == `admin`">
+                  <RouterLink to="/usersList">
+                    <a class="nav-link px-3 px-lg-auto" type="button">
+                      Utenti
+                    </a>
+                  </RouterLink>
+                </li>
               </ul>
               <div class="col-6 col-md-5 col-lg-6"></div>
               <div class="col-1 col-lg-1 col-sm-2 float-right grow flex justify-end items-center gap-3 d-inline">
-                <UserInfo v-if="user" :user="user" />
+                <UserInfo :user="user" />
                 <!--<button v-if="user" class="btn !px-2" @click="logout">
                   Logout
-                </button>-->
+                </button>
                 <template v-else id="login-register">
                   <div id="btns">
                     <RouterLink to="/login" class="btn" id="else">Login</RouterLink>
                     <RouterLink to="/register" class="btn" id="else">Registrati</RouterLink>
                   </div>
-                </template>
+                </template>-->
               </div>
               <div id="darkmode" class="col-1 col-lg-1 col-sm-2 m-0">
                 <button type="button" class="btn btn-primary flex grow d-inline-block" id="theme-switch">
@@ -153,10 +160,13 @@ export default defineComponent({
   watch: { //watch al posto di mounted() per chiamare getUser() ogni volta che la route cambia
     $route: 'getUser',
   },
+  async mounted() {
+    await this.getUser();
+  },
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 div#btns>a {
 
   &:hover {

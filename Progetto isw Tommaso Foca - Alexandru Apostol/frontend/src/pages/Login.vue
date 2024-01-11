@@ -6,10 +6,10 @@
       <div class="container-fluid col-12">
         <div class="row my-5"></div>
         <form @submit.prevent="login" autocomplete="off" class="ps-5 pe-4">
+          <div v-if="errMessage" class="bg-danger rounded mb-5 p-2 text-center">{{ errMessage }}</div>
           <div class="form-floating ms-5 col-11 col-md-10 me-0">
-            <input v-model="email" type="email" id="email" name="email" class="form-control"
-              placeholder="name@example.com" required>
-            <label for="email" class="text-secondary">Email</label>
+            <input v-model="username" type="username" id="username" name="username" class="form-control" required>
+            <label for="username" class="text-secondary">Username</label>
           </div>
           <div class="form-floating ms-5 col-11 col-md-10 me-0">
             <input v-model="password" type="password" id="password" name="password" class="form-control"
@@ -68,26 +68,35 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   data() {
     return {
-      email: "",
-      password: ""
+      username: "",
+      password: "",
+      errMessage: ""
     }
   },
   methods: {
     async login() {
       try {
         await axios.post("/api/login", {
-          email: this.email,
+          username: this.username,
           password: this.password,
         })
         window.location.href = "/"
-      } catch (e: any) {
-        if (e.response) {
-          alert(`${e.response.status} - ${e.response.statusText}\n${e.response.data}`)
-        } else {
-          alert(e.message)
+      } catch (error: any) {
+        if (error.response) {
+          this.errMessage = error.response.data
         }
       }
     },
+  },
+  created() {
+    this.errMessage = this.$route.query.message as string;
+  },
+  mounted() {
+    if (this.errMessage) {
+      setTimeout(() => {
+        this.errMessage = "";
+      }, 3000); // dopo 3 secondi la variabile errore torna vuota e il banner scompare
+    }
   },
 })
 </script>

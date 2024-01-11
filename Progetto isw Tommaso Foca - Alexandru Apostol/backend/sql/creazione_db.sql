@@ -15,8 +15,8 @@ CREATE TABLE utenti (
     genere VARCHAR(10),
     professione VARCHAR(255),
     ruolo VARCHAR(255) NOT NULL
-);
-
+)
+ENGINE = InnoDB;
 -- Creazione della tabella domande_utenti
 CREATE TABLE domande_utenti (
     id_domanda INT PRIMARY KEY AUTO_INCREMENT,
@@ -24,8 +24,8 @@ CREATE TABLE domande_utenti (
     data DATE NOT NULL,
     testo_domanda TEXT NOT NULL,
     FOREIGN KEY (id_utente) REFERENCES utenti(id_utente) ON DELETE CASCADE
-);
-
+)
+ENGINE = InnoDB;
 -- Creazione della tabella risposte
 CREATE TABLE risposte (
     id_risposta INT PRIMARY KEY AUTO_INCREMENT,
@@ -34,4 +34,5 @@ CREATE TABLE risposte (
     testo_risposta TEXT,
     FOREIGN KEY (id_utente) REFERENCES utenti(id_utente) ON DELETE CASCADE,
     FOREIGN KEY (id_domanda) REFERENCES domande_utenti(id_domanda) ON DELETE CASCADE
-);
+)
+ENGINE = InnoDB;

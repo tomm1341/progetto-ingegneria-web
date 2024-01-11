@@ -12,34 +12,6 @@ import { connect } from "http2";
 const app = express();
 
 app.use(bodyParser.json());
-/*
-export async function inviaDatiController(req: Request, res: Response): Promise<void> {
-  try {
-    const { nome, cognome, username, email, password, eta, genere, professione, ruolo }:Utente = req.body;
-
-    // Esecuzione query per inserire i dati nel database
-    const query = `
-      INSERT INTO utenti (nome, cognome, username, email, password, eta, genere, professione, ruolo)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `;
-    const values = [nome, cognome, username, email, password, eta, genere, professione, ruolo];
-    console.log(req.body)
-
-    connection.execute(query, values, (error, results) => {
-      if (error) {
-        console.error('Errore durante l\'inserimento dell\'utente nel database:', error);
-        res.status(500).json({ error: 'Errore durante la registrazione dell\'utente' });
-        console.log(req.body)
-      } else {
-        console.log('Utente registrato con successo');
-        res.status(200).json({ message: 'Utente registrato con successo' });
-      }
-    });
-  } catch (error) {
-    console.error('Errore durante la registrazione dell\'utente:', error);
-    res.status(500).json({ error: 'Errore durante la registrazione dell\'utente' });
-  }
-}*/
 
 /*****************************************  LOGIN  ***************************************************************/
 export const login = async (req: Request, res: Response) => {
@@ -50,13 +22,13 @@ export const login = async (req: Request, res: Response) => {
     return
   }
 
-  const { email, password } = req.body
+  const { username, password } = req.body
 
   // Esegue la query al database per ottenere i dati dell'utente in base allo username
   const connection = await getConnection()
   const [results] = await connection.execute(
-    "SELECT id_utente, email, password, ruolo FROM utenti WHERE email=?",
-    [email]
+    "SELECT id_utente, username, password, ruolo FROM utenti WHERE username=?",
+    [username]
   )
 
   // Errore se l'utente non è stato trovato
@@ -85,7 +57,7 @@ export const login = async (req: Request, res: Response) => {
   res.json({ message: "Login effettuato con successo" })
 }
 
-/*****************************************  AUTH  ***************************************************************/
+/*****************************************  REGISTER  ***************************************************************/
 
 export const register = async (req: Request, res: Response) => {
   // Blocca la richiesta se l'utente ha già effettuato il login
@@ -152,4 +124,45 @@ export const getProfile = async (req: Request, res: Response) => {
   // Decodifica il contenuto dell'access token, che contiene il dati dell'utente, e lo invia in risposta
   const user = decodeAccessToken(req, res)
   res.json(user)
+}
+
+
+/******************************************** USERSLIST *************************************/
+
+export const usersList = async (req: Request, res: Response) => {
+
+  const connection = await getConnection();
+  const [users] = await connection.execute("SELECT * FROM utenti ORDER BY ruolo desc")
+
+   if (Array.isArray(users) && users.length <= 0) {
+    res.status(500).send("Nessun utente registrato")
+    return
+  }
+
+  res.json(users)
+}
+
+export const getUsernameById = async (req: Request, res: Response) => {
+  const connection = await getConnection();
+
+  const username = await connection.execute("SELECT username FROM utenti WHERE id_utente=?", [req.params.id])
+  console.log(username)
+  res.json(username)
+}
+
+
+export const deleteUser = async (req: Request, res: Response) => {
+  const user = decodeAccessToken(req, res);
+
+  //Ulteriore controllo dei permessi
+  if(user?.ruolo != 'admin'){
+    res.status(401).send("Non possiedi i permessi")
+    return
+  }
+  const connection = await getConnection();
+
+  await connection.execute("DELETE FROM utenti WHERE id_utente=?", [req.params.id])
+  res.status(200).send("Richiesta andata a buon fine")
+  //res.json({success: true})
+
 }

@@ -38,7 +38,14 @@
                     </a>
                   </router-link>
                 </li>
-                <li class="nav-item dropdown">
+                <li v-if="user">
+                  <RouterLink to="/profile">
+                    <a class="nav-link px-3 px-lg-auto" type="button">
+                      Profilo
+                    </a>
+                  </RouterLink>
+                </li>
+                <li v-if="!user" class="nav-item dropdown">
                   <router-link to="/login">
                     <a class="nav-link px-3 px-lg-auto" type="button">
                       Login
@@ -56,15 +63,6 @@
               <div class="col-6 col-md-5 col-lg-6"></div>
               <div class="col-1 col-lg-1 col-sm-2 float-right grow flex justify-end items-center gap-3 d-inline">
                 <UserInfo :user="user" />
-                <!--<button v-if="user" class="btn !px-2" @click="logout">
-                  Logout
-                </button>
-                <template v-else id="login-register">
-                  <div id="btns">
-                    <RouterLink to="/login" class="btn" id="else">Login</RouterLink>
-                    <RouterLink to="/register" class="btn" id="else">Registrati</RouterLink>
-                  </div>
-                </template>-->
               </div>
               <div id="darkmode" class="col-1 col-lg-1 col-sm-2 m-0">
                 <button type="button" class="btn btn-primary flex grow d-inline-block" id="theme-switch">
@@ -74,11 +72,6 @@
             </div>
           </nav>
           <div class="float-end">
-            <!--<div class="d-none" id="UserDiv" @login-success="updateLoggedInUser">
-              <div v-if="loggedInUser">
-                <p>Benvenuto, {{ loggedInUser }}</p>
-              </div>
-            </div>-->
           </div>
         </div>
       </div>
@@ -86,16 +79,6 @@
     <div class="container-fluid p-0 overflow-hidden">
       <router-view :user="user" />
     </div>
-    <!--<script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
-<a href="#">
-<lord-icon
-    id="freccia"
-    src="https://cdn.lordicon.com/xdakhdsq.json"
-    trigger="hover"
-    colors="primary:#61B5D9"
-    style="width:50px;height:50px">
-</lord-icon></a>-->
-
     <div class="container-fluid d-flex align-items-center ps-3" id="footer">
       <div class="me-4 text-start col-8" id="nomi">
         <p class="pt-2 ps-2">Tommaso Foca</p>

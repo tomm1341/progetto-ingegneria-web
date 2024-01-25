@@ -14,6 +14,7 @@ import Popular from './pages/Popular.vue'
 import PageNotFound from './pages/NotFound.vue'
 import MakeQuestion from "./pages/MakeQuestion.vue"
 import UsersList from './pages/UsersList.vue'
+import Profile from './pages/Profile.vue'
 import { Utente } from './types'
 
 
@@ -29,7 +30,8 @@ const router: Router = createRouter({
         path: "/login", component: Login,
         meta: {requireLogout: true }
       },
-      { path: "/forum", component: Forum, 
+      { 
+        path: "/forum", component: Forum, 
         props: true
       },
       { path: "/popular", component: Popular },
@@ -38,9 +40,14 @@ const router: Router = createRouter({
         props: true, // Per passare i parametri come prop invece che nella sezione $route.params
         meta: { requireLogin: true}
         },
-      { path: "/usersList", component: UsersList,
+      { 
+        path: "/usersList", component: UsersList,
         props: true,
         meta: { requireLogin: true, requireAdmin: true}
+      },
+      { 
+        path: "/profile", component: Profile,
+        meta: { requireLogin: true }
       },
       { path: "/:pathMatch(.*)*", component: PageNotFound }
     ]

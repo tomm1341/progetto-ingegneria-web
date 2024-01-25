@@ -126,6 +126,13 @@ export const getProfile = async (req: Request, res: Response) => {
   res.json(user)
 }
 
+export const getUserById = async (req: Request, res: Response) => {
+  const connection = await getConnection()
+
+  const [data] = await connection.execute(`SELECT nome, cognome, username, email, eta, genere, professione, ruolo FROM utenti WHERE id_utente=?`, [req.params.id])
+  const user = (data as any)[0]
+  res.json(user)
+}
 
 /******************************************** USERSLIST *************************************/
 
@@ -146,7 +153,6 @@ export const getUsernameById = async (req: Request, res: Response) => {
   const connection = await getConnection();
 
   const username = await connection.execute("SELECT username FROM utenti WHERE id_utente=?", [req.params.id])
-  console.log(username)
   res.json(username)
 }
 
@@ -155,7 +161,7 @@ export const deleteUser = async (req: Request, res: Response) => {
   const user = decodeAccessToken(req, res);
 
   //Ulteriore controllo dei permessi
-  if(user?.ruolo != 'admin'){
+  if(user?.ruolo != 'admin' && user?.id_utente != req.params.id as unknown as number){
     res.status(401).send("Non possiedi i permessi")
     return
   }
@@ -163,6 +169,36 @@ export const deleteUser = async (req: Request, res: Response) => {
 
   await connection.execute("DELETE FROM utenti WHERE id_utente=?", [req.params.id])
   res.status(200).send("Richiesta andata a buon fine")
-  //res.json({success: true})
+
 
 }
+
+/***************************************** EDIT USER ***********************************************/
+
+export const editUser = async (req: Request, res: Response) => {
+  const conn = await getConnection()
+  const {nome, cognome, username, email, eta, genere, professione} = req.body
+  const user = decodeAccessToken(req, res);
+
+  //Verifico che l'username sia disponibile
+  const connection = await getConnection()
+  const [users] = await connection.execute("SELECT username FROM utenti WHERE username=? AND id_utente<>?", [
+    username, user?.id_utente
+  ])
+  if (Array.isArray(users) && users.length > 0) {
+    res.status(400).send("Username già in uso.")
+    return
+  }
+
+  if(user){
+
+    await conn.execute(`
+    UPDATE utenti SET nome=?, cognome=?, username=?, email=?, eta=?, genere=?, professione=? WHERE id_utente=?`,
+    [nome, cognome, username, email, eta, genere, professione, user.id_utente])
+    res.status(200).send("Richiesta andata a buon fine")
+
+  } else { 
+    res.status(403).send("Questa operazione richiede il logout.")
+  }
+}
+

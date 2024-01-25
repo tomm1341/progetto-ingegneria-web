@@ -32,7 +32,6 @@
     </div>
   </div>
   <div class="row" id="par1">
-    <div v-if="errMessage" class="bg-danger rounded p-3 my-4 text-center">{{ errMessage }}</div>
     <div class="mt-5">
       <div class="rounded py-3 mx-3" id="shadow">
         <h1 class="display-4 text-center text-white fs-1">
@@ -69,64 +68,69 @@
         </p>
         <ul id="paragrafi">
           <li class="mx-5 text-white">
-            <img src="../img/system-outline-31-check.gif" alt="Segno di spunta" class="icon-link-hover-img" />
-            Potenza e completezza: Angular è una piattaforma completa che offre
-            un ampio set di funzionalità per lo sviluppo di applicazioni web
-            complesse. Fornisce strumenti integrati per la gestione dei modelli,
-            il routing, la gestione degli stati, l'injection delle dipendenze e
-            molto altro ancora. Questo significa che non è necessario affidarsi
-            a librerie o framework esterni per molte delle funzionalità
-            essenziali, riducendo la dipendenza da terze parti e semplificando
-            lo sviluppo complessivo dell'applicazione.
+            <p>
+              <b>Potenza e completezza</b>: Angular è una piattaforma completa che offre
+              un ampio set di funzionalità per lo sviluppo di applicazioni web
+              complesse. Fornisce strumenti integrati per la gestione dei modelli,
+              il routing, la gestione degli stati, l'injection delle dipendenze e
+              molto altro ancora. Questo significa che non è necessario affidarsi
+              a librerie o framework esterni per molte delle funzionalità
+              essenziali, riducendo la dipendenza da terze parti e semplificando
+              lo sviluppo complessivo dell'applicazione.
+            </p>
           </li>
 
           <li class="mx-5 mt-2 text-white">
-            <img src="../img/system-outline-31-check.gif" alt="Segno di spunta" class="icon-link-hover-img" />
-            Architettura basata su componenti: Angular adotta un approccio
-            basato su componenti, che favorisce la modularità e la riusabilità
-            del codice. I componenti sono costruiti come blocchi autonomi e
-            indipendenti, consentendo agli sviluppatori di sviluppare, testare e
-            mantenere il codice in modo più efficiente. Inoltre, l'architettura
-            dei componenti di Angular favorisce la separazione delle
-            responsabilità e la collaborazione tra i membri del team di
-            sviluppo.
+            <p>
+              <b>Architettura basata su componenti</b>: Angular adotta un approccio
+              basato su componenti, che favorisce la modularità e la riusabilità
+              del codice. I componenti sono costruiti come blocchi autonomi e
+              indipendenti, consentendo agli sviluppatori di sviluppare, testare e
+              mantenere il codice in modo più efficiente. Inoltre, l'architettura
+              dei componenti di Angular favorisce la separazione delle
+              responsabilità e la collaborazione tra i membri del team di
+              sviluppo.
+            </p>
           </li>
 
           <li class="mx-5 mt-2 text-white">
-            <img src="../img/system-outline-31-check.gif" alt="Segno di spunta" class="icon-link-hover-img" />
-            TypeScript: Angular è scritto in TypeScript, un linguaggio di
-            programmazione che aggiunge funzionalità di tipizzazione statica a
-            JavaScript. TypeScript offre numerosi vantaggi, come il rilevamento
-            degli errori a tempo di compilazione, un'IDE più potente con
-            autocompletamento e refactoring, e una migliore organizzazione e
-            struttura del codice. L'utilizzo di TypeScript con Angular permette
-            agli sviluppatori di creare applicazioni più robuste e manutenibili.
+            <p>
+              <b>TypeScript</b>: Angular è scritto in TypeScript, un linguaggio di
+              programmazione che aggiunge funzionalità di tipizzazione statica a
+              JavaScript. TypeScript offre numerosi vantaggi, come il rilevamento
+              degli errori a tempo di compilazione, un'IDE più potente con
+              autocompletamento e refactoring, e una migliore organizzazione e
+              struttura del codice. L'utilizzo di TypeScript con Angular permette
+              agli sviluppatori di creare applicazioni più robuste e manutenibili.
+            </p>
           </li>
 
           <li class="mx-5 mt-2 text-white">
-            <img src="../img/system-outline-31-check.gif" alt="Segno di spunta" class="icon-link-hover-img" />
-            Supporto e documentazione: Angular è supportato da Google, uno dei
-            giganti dell'industria tecnologica. Questo si traduce in un'ampia
-            comunità di sviluppatori attivi e una documentazione completa e di
-            alta qualità. La documentazione di Angular fornisce esempi, tutorial
-            e guide dettagliate che facilitano l'apprendimento del framework e
-            risolvono i problemi comuni. Inoltre, la vasta comunità di
-            sviluppatori offre supporto e risorse aggiuntive per aiutare gli
-            sviluppatori ad affrontare sfide specifiche e rimanere aggiornati
-            sulle ultime novità di Angular.
+            <p>
+              <b>Supporto e documentazione</b>: Angular è supportato da Google, uno dei
+              giganti dell'industria tecnologica. Questo si traduce in un'ampia
+              comunità di sviluppatori attivi e una documentazione completa e di
+              alta qualità. La documentazione di Angular fornisce esempi, tutorial
+              e guide dettagliate che facilitano l'apprendimento del framework e
+              risolvono i problemi comuni. Inoltre, la vasta comunità di
+              sviluppatori offre supporto e risorse aggiuntive per aiutare gli
+              sviluppatori ad affrontare sfide specifiche e rimanere aggiornati
+              sulle ultime novità di Angular.
+            </p>
           </li>
 
           <li class="mx-5 mt-2 text-white pb-3" id="last-row">
-            <img src="../img/system-outline-31-check.gif" alt="Segno di spunta" class="icon-link-hover-img" />
-            Prestazioni ottimizzate: Angular è stato progettato per offrire
-            prestazioni ottimali anche con applicazioni complesse e volumi di
-            dati elevati. Utilizza tecniche avanzate di rilevamento dei
-            cambiamenti, rendering on-demand e caching dei moduli per garantire
-            tempi di risposta rapidi e un'esperienza utente fluida. Inoltre,
-            Angular offre strumenti per l'ottimizzazione delle prestazioni, come
-            la generazione di bundle e il lazy loading dei moduli, che
-            consentono di ridurre al minimo il tempo di caricamento e
-            massimizzare l'efficienza dell'applicazione.
+            <p>
+              <b>Prestazioni ottimizzate</b>: Angular è stato progettato per offrire
+              prestazioni ottimali anche con applicazioni complesse e volumi di
+              dati elevati. Utilizza tecniche avanzate di rilevamento dei
+              cambiamenti, rendering on-demand e caching dei moduli per garantire
+              tempi di risposta rapidi e un'esperienza utente fluida. Inoltre,
+              Angular offre strumenti per l'ottimizzazione delle prestazioni, come
+              la generazione di bundle e il lazy loading dei moduli, che
+              consentono di ridurre al minimo il tempo di caricamento e
+              massimizzare l'efficienza dell'applicazione.
+            </p>
           </li>
         </ul>
       </div>
@@ -138,22 +142,31 @@
 <script lang="ts">
 import axios from 'axios'
 import { defineComponent } from 'vue';
+import Swal from 'sweetalert2';
 
 export default defineComponent({
-  data() {
-    return {
-      errMessage: ""
-    }
+  methods: {
+    errorFunction(error: string) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "bottom-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: false,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "error",
+        title: error
+      });
+    },
   },
   created() {
-    this.errMessage = this.$route.query.message as string;
-  },
-  mounted() {
-    if (this.errMessage) {
-      setTimeout(() => {
-        this.errMessage = "";
-      }, 3000); // 3000 milliseconds, you can change this value as per your requirement
-    }
+    if (this.$route.query.message)
+      this.errorFunction(this.$route.query.message as string);
   },
 })
 </script>

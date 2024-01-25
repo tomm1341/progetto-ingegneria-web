@@ -2,35 +2,35 @@
   <div class="container rounded" id="app1">
     <div class="float-center align-items-center text-center">
       <h1 class="text-center text-black pt-4 mt-5">Registrati</h1>
-      <div v-if="errorMessage" id="errorMessage" class="my-3 rounded text-center">{{ errorMessage }}</div>
-      <form @submit.prevent="inviaDati" autocomplete="off" class="ps-5 align-items-center text-center">
+      <form @submit.prevent="checkPassw()" autocomplete="off" class="ps-5 align-items-center text-center">
         <div class="form-floating ms-5 col-11 col-md-10 me-0">
-          <input v-model="nome" type="text" id="nome" name="nome" class="form-control" placeholder="nome" required />
+          <input v-model="nome" type="text" id="nome" name="nome" class="form-control" placeholder="nome" maxlength="25"
+            required />
           <label for="nome" class="text-secondary">Nome</label>
         </div>
         <div class="form-floating ms-5 col-11 col-md-10 me-0">
           <input v-model="cognome" type="text" id="cognome" name="cognome" class="form-control" placeholder="cognome"
-            required />
+            maxlength="25" required />
           <label for="cognome" class="text-secondary">Cognome</label>
         </div>
         <div class="form-floating ms-5 col-11 col-md-10 me-0">
           <input v-model="username" type="text" id="username" name="username" class="form-control" placeholder="Username"
-            required />
+            maxlength="12" required />
           <label for="username" class="text-secondary">Username</label>
         </div>
         <div class="form-floating ms-5 col-11 col-md-10 me-0">
           <input v-model="email" type="email" id="email" name="email" class="form-control" placeholder="name@example.com"
-            required />
+            required maxlength="50" />
           <label for="email" class="text-secondary">Email</label>
         </div>
         <div class="form-floating ms-5 col-11 col-md-10 me-0">
           <input v-model="password" type="password" id="password" name="password" class="form-control"
-            placeholder="Password" required />
+            placeholder="Password" maxlength="15" required />
           <label for="password" class="text-secondary">Password</label>
         </div>
         <div class="form-floating ms-5 col-11 col-md-10 me-0">
           <input v-model="confirmPassword" type="password" id="confirmPassword" name="confirmPassword"
-            class="form-control" placeholder="Conferma Password" required />
+            class="form-control" placeholder="Conferma Password" maxlength="15" required />
           <label for="confirmPassword" class="text-secondary">Conferma Password</label>
         </div>
         <div class="form-floating ms-5 mb-4 col-11 col-md-10 me-0">
@@ -44,12 +44,12 @@
         </div>
         <div class="form-floating ms-5 col-11 col-md-10 me-0">
           <input v-model="eta" type="number" id="età" name="età" class="form-control" placeholder="Età" v-positive-number
-            required />
+            maxlength="3" @input="checkAge(eta)" required />
           <label for="età" class="text-secondary">Età</label>
         </div>
         <div class="form-floating ms-5 col-11 col-md-10 me-0">
           <input v-model="professione" type="professione" id="professione" name="professione" class="form-control"
-            placeholder="Professione" />
+            placeholder="Professione" maxlength="15" />
           <label for="professione" class="text-secondary">Professione</label>
         </div>
         <div class="form-floating ms-5 mb-4 col-11 col-md-10 me-0">
@@ -72,11 +72,12 @@
 import { Utente } from '../types'
 import axios from 'axios'
 import { defineComponent } from 'vue'
+import Swal from 'sweetalert2'
 
 export default defineComponent({
   data() {
     return {
-      errorMessage: "",
+      maxAge: 110,
       nome: "",
       cognome: "",
       username: "",
@@ -91,10 +92,6 @@ export default defineComponent({
   },
   methods: {
     async inviaDati() {
-      if (this.password != this.confirmPassword) {
-        this.errorMessage = ("Le due password non coincidono.")
-        return
-      }
       try {
         await axios.post("/api/register", {
           nome: this.nome,
@@ -110,17 +107,51 @@ export default defineComponent({
         window.location.href = "/"
       } catch (error: any) {
         if (error.response) {
-          this.errorMessage = error.response.data;
+          this.errorFunction(error.response.data.toString());
         }
+
       }
     },
-  },
-  mounted() {
-    if (this.errorMessage) {
-      setTimeout(() => {
-        this.errorMessage = "";
-      }, 3000); // dopo 3 secondi la variabile errore torna vuota e il banner scompare
-    }
+    checkAge(newValue: string): void {
+      if (newValue === '') {
+        this.eta = newValue;
+      }
+      else if (isNaN(Number(newValue))) {
+        this.errorFunction(`Questo campo accetta solo numeri!`)
+        this.eta = ''
+        return
+      } else if (Number(newValue) <= this.maxAge) {
+        this.eta = newValue;
+      } else {
+        this.errorFunction(`L'età non può superare i ${this.maxAge} anni!`)
+        this.eta = this.eta.toString().slice(0, 2); // taglia la stringa a 2 caratteri
+      }
+    },
+    checkPassw() {
+      if (this.password != this.confirmPassword) {
+        this.errorFunction("Le due password non coincidono.")
+        return
+      }
+      else this.inviaDati()
+    },
+
+    errorFunction(error: string) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "bottom-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "error",
+        title: error
+      });
+    },
   },
 })
 

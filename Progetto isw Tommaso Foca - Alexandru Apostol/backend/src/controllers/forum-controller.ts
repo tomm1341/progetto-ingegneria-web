@@ -33,7 +33,7 @@ export async function getAnswers(req: Request, res: Response) {
       `SELECT r.id_risposta, r.id_domanda, r.id_utente, r.testo_risposta, r.data, u.username
       FROM risposte r JOIN utenti u ON (r.id_utente = u.id_utente)
       WHERE r.id_domanda = (?)
-      ORDER BY id_risposta DESC`,
+      ORDER BY id_risposta ASC`,
     [req.params.id],
     function (err, results, fields) {
       res.json(results)
@@ -53,7 +53,7 @@ export async function getQuestions(req: Request, res: Response) {
   )
 }
 
-export const deleteAnswer = async (req:Request, res:Response) => {
+export const deleteComment = async (req:Request, res:Response) => {
   const connection = await getConnection();
 
   await connection.execute(`DELETE FROM risposte WHERE id_risposta = ?`, [req.params.id])
@@ -146,6 +146,41 @@ export async function newComment(req: Request, res: Response) {
 
   res.json({ success:true })
 
+}
+
+export async function editComment(req: Request, res: Response) {
+  try {
+    const conn = await getConnection();
+
+    const { testo_risposta, data, id } = req.body;
+    //const { id } = req.params;
+
+    if (!testo_risposta || !id) {
+      return res.status(400).send("Dati mancanti o non validi per l'aggiornamento");
+    }
+
+    await conn.execute(`UPDATE risposte SET testo_risposta=?, data=? WHERE id_risposta=?`, [testo_risposta, data, id]);
+    res.status(200).send("Modifica effettuata con successo");
+  } catch (error) {
+    console.error("Errore nell'aggiornamento del commento:", error);
+    res.status(500).send("Errore nell'aggiornamento del commento");
+  }
+}
+
+/************************* POPULAR API ***************************/
+
+export async function mostCommentedPosts(req: Request, res: Response) {
+connection.execute(`SELECT
+    du.id_domanda, du.id_utente, du.testo_domanda, du.data, u.username, COUNT(r.id_risposta) AS numero_risposte
+    FROM domande_utenti du
+    JOIN risposte r ON (du.id_domanda = r.id_domanda)
+    JOIN utenti u ON (du.id_utente = u.id_utente)
+    GROUP BY du.id_domanda, du.testo_domanda
+    ORDER BY numero_risposte DESC, data ASC
+    LIMIT 3`,  [],
+    function (err, results, fields) {
+      res.json(results)
+    })
 }
 
 

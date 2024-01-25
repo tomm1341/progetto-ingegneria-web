@@ -7,7 +7,8 @@
         </div>
       </div>
       <div class="row">
-        <span id="newQuestion" class="position-fixed"><router-link to="/newQuestion">Fai una
+        <span id="newQuestion" class="position-fixed"><router-link class=" rounded" to="/newQuestion">Fai
+            una
             domanda!</router-link></span>
         <div class="col-2"></div>
         <div class="col-8 d-grid ms-4">
@@ -16,8 +17,6 @@
           <div v-if="posts.length > 0" class="flex flex-col">
             <PostItem v-for="post in posts" class="d-grid mb-4" :key="post.id_domanda" :post="post"
               :canDelete="post.id_utente == utente?.id_utente || utente?.ruolo == 'admin'" @delete="getPosts" />
-            <!--<AnswerItem v-for="answer in answers" class="d-grid mb-1" :key="answer.id_risposta" :answer="answer"
-              :canDelete="answer.id_utente == utente?.id_utente || utente?.ruolo == 'admin'" @delete="getAnswers" />-->
           </div>
           <div class="col-2"></div>
         </div>
@@ -48,7 +47,6 @@ export default defineComponent({
   data() {
     return {
       posts: [] as Domanda[],
-      answers: [] as Risposta[],
       utente: {} as Utente,
     }
   },
@@ -69,4 +67,3 @@ export default defineComponent({
   }
 })
 </script>
-

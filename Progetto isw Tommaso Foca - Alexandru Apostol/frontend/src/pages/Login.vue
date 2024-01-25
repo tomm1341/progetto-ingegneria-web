@@ -6,14 +6,14 @@
       <div class="container-fluid col-12">
         <div class="row my-5"></div>
         <form @submit.prevent="login" autocomplete="off" class="ps-5 pe-4">
-          <div v-if="errMessage" class="bg-danger rounded mb-5 p-2 text-center">{{ errMessage }}</div>
           <div class="form-floating ms-5 col-11 col-md-10 me-0">
-            <input v-model="username" type="username" id="username" name="username" class="form-control" required>
+            <input v-model="username" type="username" id="username" name="username" class="form-control" maxlength="12"
+              required>
             <label for="username" class="text-secondary">Username</label>
           </div>
           <div class="form-floating ms-5 col-11 col-md-10 me-0">
             <input v-model="password" type="password" id="password" name="password" class="form-control"
-              placeholder="Password" required>
+              placeholder="Password" maxlength="15" required>
             <label for="password" class="text-secondary">Password</label>
           </div>
           <div class="col-2 ms-5">
@@ -28,30 +28,6 @@
         </form>
         <div class="row my-5"></div>
       </div>
-
-      <!--<div class="row mt-5 ms-3 justify-content-center" id="table">
-    <table id="t1" class="table table-responsive table-striped mb-4">
-    <thead>
-      <tr>
-        <th>Nome</th>
-        <th>Cognome</th>
-        <th>Email</th>
-        <th>Password</th>
-      </tr>
-    </thead>
-    <tbody id="lista">
-      <tr v-for="utente, index in utenti" :key="utente.Email">
-        <td>{{ utente.Nome }}</td>
-        <td>{{ utente.Cognome }}</td>
-        <td>{{ utente.Email }}</td>
-        <td>{{ utente.Password }}</td>
-        <td>
-          <button @click="editRow(index)" class="btn btn-warning btn-sm me-2 edit" id="modifica">Modifica</button>
-          <button @click="deleteRow(index)" class="btn btn-danger btn-sm text-black edit" id="elimina">Elimina</button>
-        </td>
-      </tr>
-    </tbody>
-    </table>-->
       <div class="container bg-danger d-none text-center" id="eliminato">
         <p class="pt-2">Utente eliminato</p>
       </div>
@@ -64,13 +40,13 @@
 <script lang="ts">
 import axios from 'axios'
 import { defineComponent } from 'vue'
+import Swal from 'sweetalert2'
 
 export default defineComponent({
   data() {
     return {
       username: "",
       password: "",
-      errMessage: ""
     }
   },
   methods: {
@@ -83,21 +59,32 @@ export default defineComponent({
         window.location.href = "/"
       } catch (error: any) {
         if (error.response) {
-          this.errMessage = error.response.data
+          this.errorFunction(error.response.data.toString())
         }
       }
     },
+    errorFunction(error: string) {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "bottom-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: false,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "error",
+        title: error
+      });
+    },
   },
   created() {
-    this.errMessage = this.$route.query.message as string;
-  },
-  mounted() {
-    if (this.errMessage) {
-      setTimeout(() => {
-        this.errMessage = "";
-      }, 3000); // dopo 3 secondi la variabile errore torna vuota e il banner scompare
-    }
-  },
+    if (this.$route.query.message)
+      this.errorFunction(this.$route.query.message as string);
+  }
 })
 </script>
 

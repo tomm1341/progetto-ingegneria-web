@@ -5,7 +5,7 @@ import forumRouter from './routes/forum-router'
 import loginRouter from './routes/login-router'
 import history from 'connect-history-api-fallback'
 import bodyParser from 'body-parser'
-import { /*inviaDatiController,*/ deleteUser, getProfile, getUsernameById, login, logout, register, usersList } from './controllers/login-controller'
+import { deleteUser, editUser, getProfile, getUserById, getUsernameById, login, logout, register, usersList } from './controllers/login-controller'
 //import { loginController } from './controllers/login-controller'
 
 const app: Express = express()
@@ -25,10 +25,12 @@ app.use(express.json())
 app.post('/api/register', register)
 app.post('/api/login', login)
 app.get('/api/profile', getProfile)
+app.get('/api/profile/:id', getUserById)
 app.post('/api/logout', logout)
 app.get('/api/usersList', usersList)
 app.delete('/api/usersList/:id', deleteUser)
 app.get('/api/users/:id', getUsernameById)
+app.post('/api/users/edit', editUser)
 
 const corsOptions = {
   origin: '*',

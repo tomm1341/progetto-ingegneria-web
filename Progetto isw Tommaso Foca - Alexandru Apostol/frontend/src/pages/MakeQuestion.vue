@@ -4,7 +4,7 @@
         <form @submit.prevent="inviaDati" autocomplete="off" class="align-items-center text-center">
             <div class="form-floating mx-5 row ">
                 <textarea v-model="testo_domanda" type="text" id="domanda" name="testo_domanda" class="form-control mb-3"
-                    placeholder="Domanda" required></textarea>
+                    placeholder="Domanda" maxlength="900" required></textarea>
                 <label for="testo_domanda" class="text-secondary">Scrivi qui la tua domanda</label>
             </div>
 
@@ -19,6 +19,7 @@
 <script lang="ts">
 import axios from 'axios';
 import { defineComponent } from 'vue';
+import Swal from 'sweetalert2'
 
 
 export default defineComponent({
@@ -29,9 +30,32 @@ export default defineComponent({
         }
     },
     methods: {
+        checkInput(): boolean {
+            if (this.testo_domanda.trim() === ' ' || this.testo_domanda.trim() === '') {
+                this.errorFunction("Il campo deve contenere del testo")
+                return false
+            } else return true
+        },
+        errorFunction(error: string) {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "bottom-end",
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: false,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: error
+            });
+        },
         async inviaDati() {
-            if (this.testo_domanda === undefined || this.testo_domanda == "") {
-                alert("Inserire almeno una domanda");
+            if (this.testo_domanda === undefined || this.testo_domanda.trim() == "" || this.testo_domanda.trim() === " ") {
+                this.errorFunction("Inserire almeno una domanda");
                 return;
             }
             try {
